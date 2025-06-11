@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkteknolab_landing=self.webpackChunkteknolab_landing||[]).push([[834],{834:(e,a,n)=>{n.r(a),n.d(a,{default:()=>s});n(43);var l=n(682),o=n(579);const s=()=>(0,o.jsx)("footer",{className:"teknolab-footer",children:(0,o.jsx)("div",{className:"teknolab-container",children:(0,o.jsx)("div",{className:"teknolab-footer__badge",children:l.A.footer.badge})})})}}]);
+//# sourceMappingURL=834.9b19aa57.chunk.js.map

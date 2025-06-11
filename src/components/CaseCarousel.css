@@ -1,0 +1,227 @@
+/* Case Carousel Styles */
+.case-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.case-carousel__container {
+  position: relative;
+  width: 100%;
+}
+
+.case-carousel__viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg);
+}
+
+.case-carousel__track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Case Slide */
+.case-slide {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 50vh;
+}
+
+.case-slide__content {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg);
+  background: var(--background-light);
+}
+
+.case-slide__image {
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+/* Hover Overlay */
+.case-slide__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 15, 0) 0%,
+    rgba(10, 10, 15, 0.3) 50%,
+    rgba(10, 10, 15, 0.8) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--spacing-2xl);
+}
+
+.case-slide__content:hover .case-slide__overlay {
+  opacity: 1;
+}
+
+.case-slide__content:hover .case-slide__image {
+  transform: scale(1.05);
+}
+
+.case-slide__text {
+  color: var(--text-primary);
+  max-width: 600px;
+}
+
+.case-slide__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+.case-slide__description {
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Navigation Bullets */
+.carousel-bullets {
+  margin-top: var(--spacing-xl);
+}
+
+.carousel-bullets__list {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-bullets__item {
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-bullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.carousel-bullet:hover {
+  border-color: var(--secondary);
+  transform: scale(1.2);
+}
+
+.carousel-bullet--active {
+  background: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.carousel-bullet:focus {
+  outline: 2px solid var(--secondary);
+  outline-offset: 2px;
+}
+
+/* Section with reduced padding for cases */
+.teknolab-section--compact {
+  padding: var(--spacing-xl) 0;
+}
+
+.teknolab-section--compact .teknolab-section__header {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Screen Reader Only */
+.case-carousel__sr-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .case-slide,
+  .case-slide__content,
+  .case-slide__image {
+    height: 40vh;
+  }
+  
+  .case-slide__overlay {
+    padding: var(--spacing-lg);
+  }
+  
+  .case-slide__title {
+    font-size: var(--font-size-xl);
+  }
+  
+  .case-slide__description {
+    font-size: var(--font-size-sm);
+  }
+  
+  .teknolab-section--compact {
+    padding: var(--spacing-lg) 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .case-slide,
+  .case-slide__content,
+  .case-slide__image {
+    height: 35vh;
+  }
+  
+  .case-slide__overlay {
+    padding: var(--spacing-md);
+  }
+  
+  .case-slide__title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .carousel-bullet {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .teknolab-section--compact {
+    padding: var(--spacing-md) 0;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .case-carousel__track,
+  .case-slide__overlay,
+  .case-slide__image,
+  .carousel-bullet {
+    transition: none;
+  }
+} 
