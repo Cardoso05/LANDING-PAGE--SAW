@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://teknolab.com.br/sitemap.xml
+
+# Crawl-delay (opcional)
+Crawl-delay: 1
+
+# Disallow (se houver páginas a bloquear)
+# Disallow: /admin/
+# Disallow: /private/ 

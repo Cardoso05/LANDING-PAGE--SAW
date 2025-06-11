@@ -1,0 +1,70 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        password: ${{ secrets.VPS_PASSWORD }}
+        script: |
+          # Backup da versão atual
+          if [ -d "/var/www/html/backup" ]; then
+            rm -rf /var/www/html/backup
+          fi
+          if [ -d "/var/www/html/current" ]; then
+            mv /var/www/html/current /var/www/html/backup
+          fi
+          
+          # Criar pasta temporária
+          mkdir -p /var/www/html/temp
+          
+    - name: Upload build files
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        password: ${{ secrets.VPS_PASSWORD }}
+        source: "build/*"
+        target: "/var/www/html/temp"
+        strip_components: 1
+        
+    - name: Activate new version
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        password: ${{ secrets.VPS_PASSWORD }}
+        script: |
+          # Mover arquivos para posição final
+          mv /var/www/html/temp /var/www/html/current
+          
+          # Reiniciar nginx (se necessário)
+          systemctl reload nginx
+          
+          echo "Deploy concluído com sucesso!" 
