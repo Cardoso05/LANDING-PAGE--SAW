@@ -3,25 +3,48 @@ import React, { useState, useEffect, useRef } from 'react';
 const CaseCarouselFullWidth = ({ cases = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [progress, setProgress] = useState(0);
   const intervalRef = useRef(null);
+  const progressIntervalRef = useRef(null);
 
   // Auto-play functionality
   useEffect(() => {
     if (!isHovered && cases.length > 1) {
+      // Reset progress
+      setProgress(0);
+      
+      // Progress animation
+      progressIntervalRef.current = setInterval(() => {
+        setProgress(prev => {
+          if (prev >= 100) {
+            return 0;
+          }
+          return prev + (100 / 70); // 70 steps for 7 seconds (100ms intervals)
+        });
+      }, 100);
+      
+      // Slide change
       intervalRef.current = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % cases.length);
-      }, 7000); // Slower auto-play for better reading
+        setProgress(0); // Reset progress when changing slide
+      }, 7000);
+    } else {
+      setProgress(0);
     }
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
     };
-  }, [isHovered, cases.length]);
+  }, [isHovered, cases.length, currentIndex]);
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
+    setProgress(0); // Reset progress when manually changing slide
   };
 
   const handleMouseEnter = () => setIsHovered(true);
@@ -86,9 +109,9 @@ const CaseCarouselFullWidth = ({ cases = [] }) => {
                     <div className="case-slide__image-container">
                       <img
                         src={caseItem.imageUrl}
-                        alt={caseItem.altText || `Case de sucesso: ${caseItem.title}`}
-                        className="case-slide__image"
-                        loading={index === 0 ? 'eager' : 'lazy'}
+                                        alt={caseItem.altText || `Case de sucesso ${caseItem.title} - ${caseItem.result}`}
+                className="case-slide__image"
+                loading={index === 0 ? 'eager' : 'lazy'}
                       />
                       <div className="case-slide__overlay" aria-hidden="true"></div>
                     </div>
@@ -124,7 +147,7 @@ const CaseCarouselFullWidth = ({ cases = [] }) => {
         <div className="case-carousel__progress" aria-hidden="true">
           <div 
             className="case-carousel__progress-bar"
-            style={{ width: `${((currentIndex + 1) / cases.length) * 100}%` }}
+            style={{ width: `${progress}%` }}
           />
         </div>
       </div>

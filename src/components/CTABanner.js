@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const CTABanner = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -9,8 +10,11 @@ const CTABanner = () => {
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       
-      // Show CTA when user scrolled 60% of the page
+      // Calculate scroll percentage
       const scrollPercentage = scrollTop / (documentHeight - windowHeight);
+      setScrollProgress(Math.min(scrollPercentage * 100, 100));
+      
+      // Show CTA when user scrolled 60% of the page
       setIsVisible(scrollPercentage > 0.6);
     };
 
@@ -25,6 +29,14 @@ const CTABanner = () => {
 
   return (
     <div className={`cta-banner ${isVisible ? 'cta-banner--visible' : ''}`} id="cta">
+      {/* Progress Bar */}
+      <div className="cta-banner__progress" aria-hidden="true">
+        <div 
+          className="cta-banner__progress-bar"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+      
       <div className="container">
         <div className="cta-banner__content">
           <div className="cta-banner__text">

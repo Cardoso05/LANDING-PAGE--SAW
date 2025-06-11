@@ -7,9 +7,10 @@ const HeroSection = () => {
   const handleWizardSubmit = (e) => {
     e.preventDefault();
     if (wizardInput.trim()) {
-      // Aqui você pode integrar com analytics ou salvar o input
-      console.log('Problema identificado:', wizardInput);
-      // Redirecionar para WhatsApp ou próxima etapa
+      // Integração com analytics (Google Analytics, Facebook Pixel, etc.)
+      // gtag('event', 'lead_capture', { problem: wizardInput });
+      
+      // Redirecionar para WhatsApp
       const message = encodeURIComponent(`Olá! Gostaria de conversar sobre: ${wizardInput}`);
       window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
     }

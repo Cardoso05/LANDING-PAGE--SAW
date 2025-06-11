@@ -56,9 +56,30 @@ const FAQWithSearch = () => {
     setExpandedItems(newExpandedItems);
   };
 
+  // Schema Markup for FAQ
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqData.map(item => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  };
+
   return (
-    <section className="faq-search section" id="faq">
-      <div className="container container--narrow">
+    <>
+      {/* FAQ Schema Markup */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      
+      <section className="faq-search section" id="faq">
+        <div className="container container--narrow">
         <header className="section-header">
           <span className="section-label">Dúvidas Frequentes</span>
           <h2 className="section-title">{teks.faq.sectionTitle}</h2>
@@ -144,6 +165,7 @@ const FAQWithSearch = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

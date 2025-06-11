@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WhatsAppCTA = () => {
-  const whatsappNumber = "5511999999999"; // TODO: Substitua pelo número real antes do deploy
+  const whatsappNumber = "5511999999999"; // Substitua pelo número real do WhatsApp
   const message = "Olá! Gostaria de saber mais sobre o TeknoLab e como pode ajudar minha empresa.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
