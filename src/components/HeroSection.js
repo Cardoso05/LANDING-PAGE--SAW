@@ -38,8 +38,8 @@ const HeroSection = () => {
   // Função para buscar próxima pergunta via Gemini
   async function fetchNextQuestion(history) {
     try {
-      const API_KEY = 'AIzaSyARzLqKEW3tnRznBk5N71jkEQKigyG7gFg';
-      const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+      const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+      const API_URL = `${process.env.REACT_APP_API_URL}?key=${API_KEY}`;
       
       const prompt = `
 Você é um consultor de automação empresarial especializado em WhatsApp e IA. 
@@ -94,8 +94,8 @@ Responda APENAS a pergunta, sem explicações adicionais.`;
   // Função para buscar solução final via Gemini
   async function fetchSolution(questions, answers) {
     try {
-      const API_KEY = 'AIzaSyARzLqKEW3tnRznBk5N71jkEQKigyG7gFg';
-      const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+      const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+      const API_URL = `${process.env.REACT_APP_API_URL}?key=${API_KEY}`;
       
       const prompt = `
 Você é um especialista em automação empresarial com foco em WhatsApp e IA.
@@ -160,7 +160,8 @@ Regras:
   // Função para enviar ao WhatsApp
   function sendToWhatsApp(message) {
     const whatsappMessage = encodeURIComponent(message);
-    window.open(`https://wa.me/5511999999999?text=${whatsappMessage}`, '_blank');
+    const whatsappNumber = process.env.REACT_APP_WHATSAPP_NUMBER || '5511999999999';
+    window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
   }
 
   // Handler do submit

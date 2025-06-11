@@ -25,6 +25,10 @@ jobs:
       
     - name: Build project
       run: npm run build
+      env:
+        REACT_APP_GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        REACT_APP_WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
+        REACT_APP_API_URL: ${{ secrets.GEMINI_API_URL }}
       
     - name: Deploy to VPS
       uses: appleboy/ssh-action@v1.0.0
