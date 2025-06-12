@@ -19,6 +19,7 @@ function App() {
   // Console log para testar deploy automático
   console.log('🚀 Deploy automático funcionando! Versão:', new Date().toISOString());
   console.log('✅ GitHub Actions → VPS → Container Docker → Site Live!');
+  console.log('🧪 Teste de deploy automático - verificando funcionalidade');
   
   return (
     <div className="App" id="app">
