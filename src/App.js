@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import './styles.css';
 import './components/RefactoredLanding.css';
 
-// Teste de deploy automático
+// Teste de deploy automático via GitHub Actions - 2024-07-10
 import teks from './data';
 
 // Lazy loading dos componentes não críticos
