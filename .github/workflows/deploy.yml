@@ -38,15 +38,15 @@ jobs:
         password: ${{ secrets.VPS_PASSWORD }}
         script: |
           # Backup da versão atual
-          if [ -d "/var/www/html/backup" ]; then
-            rm -rf /var/www/html/backup
+          if [ -d "/var/landing/backup" ]; then
+            rm -rf /var/landing/backup
           fi
-          if [ -d "/var/www/html/current" ]; then
-            mv /var/www/html/current /var/www/html/backup
+          if [ -d "/var/landing/current" ]; then
+            mv /var/landing/current /var/landing/backup
           fi
           
           # Criar pasta temporária
-          mkdir -p /var/www/html/temp
+          mkdir -p /var/landing/temp
           
     - name: Upload build files
       uses: appleboy/scp-action@v0.1.4
@@ -55,7 +55,7 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         password: ${{ secrets.VPS_PASSWORD }}
         source: "build/*"
-        target: "/var/www/html/temp"
+        target: "/var/landing/temp"
         strip_components: 1
         
     - name: Activate new version
@@ -65,10 +65,17 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         password: ${{ secrets.VPS_PASSWORD }}
         script: |
-          # Mover arquivos para posição final
-          mv /var/www/html/temp /var/www/html/current
+          # Substituir arquivos atuais
+          rm -rf /var/landing/*
+          mv /var/landing/temp/* /var/landing/
+          rmdir /var/landing/temp
           
-          # Reiniciar nginx (se necessário)
-          systemctl reload nginx
+          # Ajustar permissões
+          chown -R www-data:www-data /var/landing/
+          chmod -R 755 /var/landing/
           
-          echo "Deploy concluído com sucesso!" 
+          # Reiniciar container da landing page
+          docker restart seuagente-landing
+          
+          echo "Deploy concluído com sucesso!"
+          echo "Site atualizado: https://seuagentewhatsapp.com.br" 

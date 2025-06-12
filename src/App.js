@@ -16,6 +16,10 @@ const FAQWithSearch = lazy(() => import('./components/FAQWithSearch'));
 const FooterNewsletter = lazy(() => import('./components/FooterNewsletter'));
 
 function App() {
+  // Console log para testar deploy automático
+  console.log('🚀 Deploy automático funcionando! Versão:', new Date().toISOString());
+  console.log('✅ GitHub Actions → VPS → Container Docker → Site Live!');
+  
   return (
     <div className="App" id="app">
       <Suspense fallback={<div className="loading-fallback">Carregando navegação...</div>}>
