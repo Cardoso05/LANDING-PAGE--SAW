@@ -117,15 +117,15 @@ const FooterNewsletter = () => {
           </div>
           
           <div className="footer-newsletter__social">
-            <a href="#" aria-label="LinkedIn" className="footer-newsletter__social-link">
+            <button aria-label="LinkedIn" className="footer-newsletter__social-link">
               💼
-            </a>
-            <a href="#" aria-label="Instagram" className="footer-newsletter__social-link">
+            </button>
+            <button aria-label="Instagram" className="footer-newsletter__social-link">
               📷
-            </a>
-            <a href="#" aria-label="YouTube" className="footer-newsletter__social-link">
+            </button>
+            <button aria-label="YouTube" className="footer-newsletter__social-link">
               📺
-            </a>
+            </button>
           </div>
         </div>
       </div>

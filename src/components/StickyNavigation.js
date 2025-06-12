@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import teks from '../data';
 
 const StickyNavigation = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { id: 'home', label: 'Início' },
     { id: 'benefits', label: 'Benefícios' },
     { id: 'cases', label: 'Cases' },
     { id: 'process', label: 'Processo' },
     { id: 'services', label: 'Serviços' },
     { id: 'faq', label: 'FAQ' }
-  ];
+  ], []);
 
   useEffect(() => {
     const handleScroll = () => {

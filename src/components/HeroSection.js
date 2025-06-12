@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import teks from '../data';
 
 const HeroSection = () => {
   // Estado do wizard
@@ -218,7 +217,7 @@ Regras:
               </p>
               
               {/* Wizard de diagnóstico de 3 etapas */}
-              <section role="region" aria-live="polite" className="tek-wizard">
+              <section aria-live="polite" className="tek-wizard">
                 {isLoading ? (
                   <div className="wizard-loading" aria-live="polite" aria-busy="true">
                     <span className="dots">
