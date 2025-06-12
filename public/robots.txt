@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://teknolab.com.br/sitemap.xml
+Sitemap: https://seuagentewhatsapp.com.br/sitemap.xml
 
 # Crawl-delay (opcional)
 Crawl-delay: 1

@@ -1,6 +1,6 @@
 {
-  "short_name": "TeknoLab",
-  "name": "TeknoLab - Automação de IA Humanizada",
+  "short_name": "Seu Agente",
+  "name": "Seu Agente WhatsApp - Automação de IA Humanizada",
   "icons": [
     {
       "src": "favicon.ico",
@@ -12,6 +12,6 @@
   "display": "standalone",
   "theme_color": "#0B3D91",
   "background_color": "#0A0A0F",
-  "description": "TeknoLab automatiza fluxos no WhatsApp e Direct com mensagens adaptativas e naturais.",
+  "description": "Seu Agente WhatsApp automatiza fluxos no WhatsApp e Direct com mensagens adaptativas e naturais.",
   "lang": "pt-BR"
 } 
