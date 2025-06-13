@@ -53,9 +53,9 @@ jobs:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
         password: ${{ secrets.VPS_PASSWORD }}
-        source: "build/"
+        source: "build/*"
         target: "/var/landing"
-        strip_components: 0
+        strip_components: 1
         
     - name: Set permissions and restart container
       uses: appleboy/ssh-action@v1.0.0
