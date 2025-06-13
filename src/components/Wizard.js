@@ -70,7 +70,9 @@ const Wizard = () => {
         <div className={styles.loading} aria-busy="true">Carregando…</div>
       ) : (
         <form onSubmit={handleSubmit} className={`${styles.form} wizard-form`}>
-          <label className="sr-only" htmlFor="wizard-input">{currentQuestion}</label>
+          <div className={`${styles.progressContainer} wizard-footer`}>
+            <p className={`${styles.progress} wizard-progress`}>Pergunta {step + 1} de 3</p>
+          </div>
           <input
             id="wizard-input"
             type="text"
@@ -83,7 +85,6 @@ const Wizard = () => {
           <button type="submit" className={`${styles.button} wizard-button btn btn--primary`} disabled={!inputValue.trim()}>
             {step === 2 ? 'Finalizar' : 'Continuar'}
           </button>
-          <p className={`${styles.progress} wizard-progress`}>Pergunta {step + 1} de 3</p>
         </form>
       )}
     </section>
