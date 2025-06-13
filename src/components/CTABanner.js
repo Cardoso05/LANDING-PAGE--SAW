@@ -23,8 +23,9 @@ const CTABanner = () => {
   }, []);
 
   const handleWhatsAppClick = () => {
+    const whatsappNumber = process.env.REACT_APP_WHATSAPP_NUMBER || '5511999999999';
     const message = encodeURIComponent('Olá! Gostaria de conversar sobre automação para minha empresa.');
-    window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
   };
 
   return (
