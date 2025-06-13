@@ -30,7 +30,7 @@ jobs:
         REACT_APP_WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
         REACT_APP_API_URL: ${{ secrets.GEMINI_API_URL }}
       
-    - name: Deploy to VPS
+    - name: Prepare directories on VPS
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.VPS_HOST }}
@@ -38,15 +38,14 @@ jobs:
         password: ${{ secrets.VPS_PASSWORD }}
         script: |
           # Backup da versão atual
-          if [ -d "/var/landing/backup" ]; then
-            rm -rf /var/landing/backup
+          if [ -d "/var/landing_backup" ]; then
+            rm -rf /var/landing_backup
           fi
-          if [ -d "/var/landing/current" ]; then
-            mv /var/landing/current /var/landing/backup
+          if [ -d "/var/landing" ]; then
+            mv /var/landing /var/landing_backup
           fi
-          
-          # Criar pasta temporária
-          mkdir -p /var/landing/temp
+          # Criar pasta destino
+          mkdir -p /var/landing
           
     - name: Upload build files
       uses: appleboy/scp-action@v0.1.4
@@ -54,27 +53,21 @@ jobs:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
         password: ${{ secrets.VPS_PASSWORD }}
-        source: "build/*"
-        target: "/var/landing/temp"
-        strip_components: 1
+        source: "build/"
+        target: "/var/landing"
+        strip_components: 0
         
-    - name: Activate new version
+    - name: Set permissions and restart container
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
         password: ${{ secrets.VPS_PASSWORD }}
         script: |
-          # Substituir arquivos atuais
-          rm -rf /var/landing/*
-          mv /var/landing/temp/* /var/landing/
-          rmdir /var/landing/temp
-          
           # Ajustar permissões
           chown -R www-data:www-data /var/landing/
           chmod -R 755 /var/landing/
           
-          # Reiniciar container da landing page
           docker restart seuagente-landing
           
           echo "Deploy concluído com sucesso!"
