@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { openWhatsApp } from '../utils/openWhatsApp';
 
 const CTABanner = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,9 +24,9 @@ const CTABanner = () => {
   }, []);
 
   const handleWhatsAppClick = () => {
+    const message = 'Olá! Gostaria de conversar sobre automação para minha empresa.';
     const whatsappNumber = process.env.REACT_APP_WHATSAPP_NUMBER || '5511999999999';
-    const message = encodeURIComponent('Olá! Gostaria de conversar sobre automação para minha empresa.');
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+    openWhatsApp(message, whatsappNumber);
   };
 
   return (
