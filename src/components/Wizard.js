@@ -65,11 +65,11 @@ const Wizard = () => {
   };
 
   return (
-    <section className={styles.wizard} aria-live="polite">
+    <section className={`tek-wizard ${styles.wizard}`} aria-live="polite">
       {loading ? (
         <div className={styles.loading} aria-busy="true">Carregando…</div>
       ) : (
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={`${styles.form} wizard-form`}>
           <label className="sr-only" htmlFor="wizard-input">{currentQuestion}</label>
           <input
             id="wizard-input"
@@ -78,12 +78,12 @@ const Wizard = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             required
-            className={styles.input}
+            className={`${styles.input} wizard-input`}
           />
-          <button type="submit" className={styles.button} disabled={!inputValue.trim()}>
+          <button type="submit" className={`${styles.button} wizard-button btn btn--primary`} disabled={!inputValue.trim()}>
             {step === 2 ? 'Finalizar' : 'Continuar'}
           </button>
-          <p className={styles.progress}>Pergunta {step + 1} de 3</p>
+          <p className={`${styles.progress} wizard-progress`}>Pergunta {step + 1} de 3</p>
         </form>
       )}
     </section>
