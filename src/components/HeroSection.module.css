@@ -11,7 +11,30 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: var(--text-primary, #fff);
+  color: #fff !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroVisualItem::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #F59E0B, #FCD34D, #F59E0B, #FCD34D);
+  background-size: 400% 400%;
+  border-radius: var(--border-radius);
+  z-index: -1;
+  opacity: 0;
+  animation: gradientShift 3s ease-in-out infinite;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .heroVisualItem:hover {
@@ -19,13 +42,23 @@
   background: rgba(245, 158, 11, 0.1);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-  color: var(--text-primary, #fff);
+  color: #fff !important;
+}
+
+.heroVisualItem:hover::before {
+  opacity: 1;
 }
 
 .heroVisualItem.selected {
   border-color: var(--secondary);
   background: var(--secondary);
-  color: var(--background);
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+}
+
+.heroVisualItem.selected::before {
+  opacity: 1;
+  animation-duration: 2s;
 }
 
 .heroVisualItem.selected .visualIcon {
@@ -40,5 +73,5 @@
 .heroVisualItem span {
   font-weight: 600;
   font-size: 0.875rem;
-  color: inherit;
+  color: #fff !important;
 } 
