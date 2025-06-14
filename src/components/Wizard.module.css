@@ -9,13 +9,13 @@
 }
 
 .questionContainer {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .question {
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--text-primary, #fff);
+  color: #F59E0B;
   margin: 0;
   line-height: 1.4;
 }
