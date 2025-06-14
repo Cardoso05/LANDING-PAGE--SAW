@@ -59,8 +59,8 @@ const HeroSection = () => {
               {areas.map((area) => (
                 <button
                   key={area.id}
-                  className={`hero-visual-item hero-visual-item--${area.id} hero-visual-glow ${styles.heroVisualItem} ${
-                    selectedArea?.id === area.id ? `hero-visual-item--selected hero-visual-selected ${styles.selected}` : ''
+                  className={`hero-visual-item hero-visual-item--${area.id} ${styles.heroVisualItem} ${
+                    selectedArea?.id === area.id ? `hero-visual-item--selected ${styles.selected}` : ''
                   }`}
                   onClick={() => handleAreaSelect(area)}
                   aria-label={`Selecionar ${area.label}: ${area.description}`}

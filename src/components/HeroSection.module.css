@@ -12,52 +12,19 @@
   align-items: center !important;
   gap: 0.5rem !important;
   color: #ffffff !important;
-  position: relative !important;
-  overflow: hidden !important;
-  box-shadow: 0 0 0 2px transparent !important;
-  animation: borderGlow 3s ease-in-out infinite !important;
-}
-
-@keyframes borderGlow {
-  0% { 
-    box-shadow: 0 0 0 2px #F59E0B !important;
-  }
-  25% { 
-    box-shadow: 0 0 0 2px #FCD34D !important;
-  }
-  50% { 
-    box-shadow: 0 0 0 2px #F59E0B !important;
-  }
-  75% { 
-    box-shadow: 0 0 0 2px #FCD34D !important;
-  }
-  100% { 
-    box-shadow: 0 0 0 2px #F59E0B !important;
-  }
 }
 
 .heroVisualItem:hover {
   border-color: #F59E0B !important;
   background: rgba(245, 158, 11, 0.2) !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4), 0 0 0 3px #F59E0B !important;
-  color: #fff !important;
-  animation: borderGlow 1.5s ease-in-out infinite !important;
-}
-
-.heroVisualItem,
-.heroVisualItem *,
-.heroVisualItem span,
-.heroVisualItem div {
-  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4) !important;
 }
 
 .heroVisualItem.selected {
   border-color: #F59E0B !important;
   background: #F59E0B !important;
-  color: #fff !important;
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 0 0 4px #FCD34D !important;
-  animation: borderGlow 1s ease-in-out infinite !important;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.8) !important;
 }
 
 .heroVisualItem.selected .visualIcon {
