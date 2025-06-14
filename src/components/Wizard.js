@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import useGemini from '../hooks/useGemini';
-import { openWhatsApp } from '../utils/openWhatsApp';
+import ContactModal from './ContactModal';
 import styles from './Wizard.module.css';
 
 const Wizard = ({ selectedArea }) => {
   const { fetchGemini, loading } = useGemini();
 
   const [step, setStep] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [finalMessage, setFinalMessage] = useState('');
   
   // Perguntas contextualizadas baseadas na área selecionada
   const getInitialQuestion = useCallback(() => {
@@ -83,41 +85,51 @@ const Wizard = ({ selectedArea }) => {
     } else {
       // Gera solução e envia
       const solution = await fetchSolution();
-      const finalMessage = `Olá! Completei o diagnóstico:\n\n` +
+      const message = `Olá! Completei o diagnóstico:\n\n` +
         questions.map((q, i) => `${i + 1}. ${q}\nR: ${newAnswers[i]}`).join('\n\n') +
         `\n\nSolução sugerida:\n${solution}`;
-      openWhatsApp(finalMessage);
+      
+      setFinalMessage(message);
+      setShowModal(true);
     }
   };
 
   return (
-    <section className={`tek-wizard ${styles.wizard}`} aria-live="polite">
-      {loading ? (
-        <div className={styles.loading} aria-busy="true">Carregando…</div>
-      ) : (
-        <form onSubmit={handleSubmit} className={`${styles.form} wizard-form`}>
-          <div className={`${styles.questionContainer}`}>
-            <h3 className={`${styles.question}`}>{currentQuestion}</h3>
-          </div>
-          <input
-            id="wizard-input"
-            type="text"
-            placeholder="Explique seu problema aqui..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            required
-            className={`${styles.input} wizard-input`}
-          />
-          <button type="submit" className={`${styles.button} wizard-button btn btn--primary`} disabled={!inputValue.trim()}>
-            {step === 2 ? 'Finalizar' : 'Continuar'}
-          </button>
-          <div className={`${styles.footer}`}>
-            <p className={`${styles.progress} wizard-progress`}>Pergunta {step + 1} de 3</p>
-            <p className={`${styles.help}`}>Em breve um atendente entrará em contato com você</p>
-          </div>
-        </form>
-      )}
-    </section>
+    <>
+      <section className={`tek-wizard ${styles.wizard}`} aria-live="polite">
+        {loading ? (
+          <div className={styles.loading} aria-busy="true">Carregando…</div>
+        ) : (
+          <form onSubmit={handleSubmit} className={`${styles.form} wizard-form`}>
+            <div className={`${styles.questionContainer}`}>
+              <h3 className={`${styles.question}`}>{currentQuestion}</h3>
+            </div>
+            <input
+              id="wizard-input"
+              type="text"
+              placeholder="Explique seu problema aqui..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              required
+              className={`${styles.input} wizard-input`}
+            />
+            <button type="submit" className={`${styles.button} wizard-button btn btn--primary`} disabled={!inputValue.trim()}>
+              {step === 2 ? 'Finalizar' : 'Continuar'}
+            </button>
+            <div className={`${styles.footer}`}>
+              <p className={`${styles.progress} wizard-progress`}>Pergunta {step + 1} de 3</p>
+              <p className={`${styles.help}`}>Em breve um atendente entrará em contato com você</p>
+            </div>
+          </form>
+        )}
+      </section>
+
+      <ContactModal 
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        finalMessage={finalMessage}
+      />
+    </>
   );
 };
 
