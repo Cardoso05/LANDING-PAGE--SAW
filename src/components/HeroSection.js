@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useTypewriter from '../hooks/useTypewriter';
 import Wizard from './Wizard';
+import styles from './HeroSection.module.css';
 
 const HeroSection = () => {
   const [selectedArea, setSelectedArea] = useState(null);
@@ -58,13 +59,13 @@ const HeroSection = () => {
               {areas.map((area) => (
                 <button
                   key={area.id}
-                  className={`hero-visual-item hero-visual-item--${area.id} ${
-                    selectedArea?.id === area.id ? 'hero-visual-item--selected' : ''
+                  className={`hero-visual-item hero-visual-item--${area.id} ${styles.heroVisualItem} ${
+                    selectedArea?.id === area.id ? `hero-visual-item--selected ${styles.selected}` : ''
                   }`}
                   onClick={() => handleAreaSelect(area)}
                   aria-label={`Selecionar ${area.label}: ${area.description}`}
                 >
-                  <div className="visual-icon">{area.icon}</div>
+                  <div className={`visual-icon ${styles.visualIcon}`}>{area.icon}</div>
                   <span>{area.label}</span>
                 </button>
               ))}
