@@ -27,7 +27,7 @@
   background-size: 400% 400%;
   border-radius: var(--border-radius);
   z-index: -1;
-  opacity: 0;
+  opacity: 0.6;
   animation: gradientShift 3s ease-in-out infinite;
   transition: opacity 0.3s ease;
 }
@@ -47,6 +47,13 @@
 
 .heroVisualItem:hover::before {
   opacity: 1;
+}
+
+.heroVisualItem,
+.heroVisualItem *,
+.heroVisualItem span,
+.heroVisualItem div {
+  color: #ffffff !important;
 }
 
 .heroVisualItem.selected {
