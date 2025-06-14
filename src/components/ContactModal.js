@@ -1,29 +1,45 @@
 import React, { useState } from 'react';
 import { openWhatsApp } from '../utils/openWhatsApp';
+import { saveLeadData, formatLeadData } from '../services/api';
 import styles from './ContactModal.module.css';
 
-const ContactModal = ({ isOpen, onClose, finalMessage }) => {
+const ContactModal = ({ isOpen, onClose, finalMessage, selectedArea, questions, answers, aiSolution }) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim() || !phone.trim()) return;
 
     setIsSubmitting(true);
+    setError('');
 
-    // Adicionar dados de contato à mensagem
-    const messageWithContact = `${finalMessage}\n\n📧 Email: ${email}\n📱 Telefone: ${phone}`;
-    
-    // Simular delay de processamento
-    setTimeout(() => {
+    try {
+      // Salvar no banco de dados
+      const leadData = formatLeadData(email, phone, selectedArea, questions, answers, aiSolution);
+      const result = await saveLeadData(leadData);
+      
+      console.log('✅ Lead salvo:', result);
+      
+      // Adicionar dados de contato à mensagem
+      const messageWithContact = `${finalMessage}\n\n📧 Email: ${email}\n📱 Telefone: ${phone}`;
+      
+      // Abrir WhatsApp
       openWhatsApp(messageWithContact);
+      
+      // Fechar modal
       onClose();
-      setIsSubmitting(false);
       setEmail('');
       setPhone('');
-    }, 1000);
+      
+    } catch (error) {
+      console.error('❌ Erro ao salvar lead:', error);
+      setError('Erro ao salvar dados. Tente novamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
@@ -31,6 +47,7 @@ const ContactModal = ({ isOpen, onClose, finalMessage }) => {
       onClose();
       setEmail('');
       setPhone('');
+      setError('');
     }
   };
 
@@ -55,6 +72,12 @@ const ContactModal = ({ isOpen, onClose, finalMessage }) => {
           <p className={styles.description}>
             Para enviarmos sua análise personalizada, precisamos de alguns dados:
           </p>
+
+          {error && (
+            <div className={styles.error}>
+              ⚠️ {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.field}>

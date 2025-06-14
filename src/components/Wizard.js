@@ -9,6 +9,7 @@ const Wizard = ({ selectedArea }) => {
   const [step, setStep] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [finalMessage, setFinalMessage] = useState('');
+  const [finalSolution, setFinalSolution] = useState('');
   
   // Perguntas contextualizadas baseadas na área selecionada
   const getInitialQuestion = useCallback(() => {
@@ -85,6 +86,7 @@ const Wizard = ({ selectedArea }) => {
     } else {
       // Gera solução e envia
       const solution = await fetchSolution();
+      setFinalSolution(solution);
       const message = `Olá! Completei o diagnóstico:\n\n` +
         questions.map((q, i) => `${i + 1}. ${q}\nR: ${newAnswers[i]}`).join('\n\n') +
         `\n\nSolução sugerida:\n${solution}`;
@@ -128,6 +130,10 @@ const Wizard = ({ selectedArea }) => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         finalMessage={finalMessage}
+        selectedArea={selectedArea}
+        questions={questions}
+        answers={answers}
+        aiSolution={finalSolution}
       />
     </>
   );
