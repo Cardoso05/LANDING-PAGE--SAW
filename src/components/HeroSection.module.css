@@ -1,0 +1,41 @@
+/* Estilos para botões de área interativos */
+.heroVisualItem {
+  background: var(--background-light);
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.heroVisualItem:hover {
+  border-color: var(--secondary);
+  background: rgba(245, 158, 11, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+}
+
+.heroVisualItem.selected {
+  border-color: var(--secondary);
+  background: var(--secondary);
+  color: var(--background);
+}
+
+.heroVisualItem.selected .visualIcon {
+  transform: scale(1.2);
+}
+
+.visualIcon {
+  font-size: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.heroVisualItem span {
+  font-weight: 600;
+  font-size: 0.875rem;
+} 

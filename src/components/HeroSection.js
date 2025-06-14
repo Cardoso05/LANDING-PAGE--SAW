@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useTypewriter from '../hooks/useTypewriter';
 import Wizard from './Wizard';
 
 const HeroSection = () => {
-  const headline = 'Descubra Como a Inteligência Artificial Pode Transformar sua Empresa';
-  const typedHeadline = useTypewriter(headline, 30);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [currentHeadline, setCurrentHeadline] = useState('Descubra Como a Inteligência Artificial Pode Transformar sua Empresa');
+  
+  const typedHeadline = useTypewriter(currentHeadline, 30);
+
+  // Após 5 segundos, muda para pergunta de seleção
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!selectedArea) {
+        setCurrentHeadline('Escolha a área que mais te interessa para começarmos');
+      }
+    }, 5000);
+    
+    return () => clearTimeout(timer);
+  }, [selectedArea]);
+
+  const areas = [
+    { id: 'chat', icon: '💬', label: 'Chat IA', description: 'Atendimento automatizado' },
+    { id: 'analytics', icon: '📊', label: 'Analytics', description: 'Análise de dados' },
+    { id: 'automation', icon: '⚡', label: 'Automação', description: 'Processos automáticos' },
+    { id: 'growth', icon: '📈', label: 'Crescimento', description: 'Expansão de vendas' },
+    { id: 'integration', icon: '🔗', label: 'Integração', description: 'Conectar sistemas' },
+    { id: 'support', icon: '🛠️', label: 'Suporte', description: 'Assistência técnica' }
+  ];
+
+  const handleAreaSelect = (area) => {
+    setSelectedArea(area);
+    setCurrentHeadline(`Perfeito! Vamos criar uma solução de ${area.label} para você`);
+  };
 
   return (
     <section className="hero-section section--hero" id="home" lang="pt-BR">
@@ -22,37 +49,25 @@ const HeroSection = () => {
               </p>
 
               {/* Wizard de diagnóstico */}
-              <Wizard />
+              <Wizard selectedArea={selectedArea} />
             </div>
           </div>
           
           <div className="hero-section__visual">
             <div className="hero-visual-grid">
-              {/* Grid de ícones visuais */}
-              <div className="hero-visual-item hero-visual-item--chat">
-                <div className="visual-icon">💬</div>
-                <span>Chat IA</span>
-              </div>
-              <div className="hero-visual-item hero-visual-item--analytics">
-                <div className="visual-icon">📊</div>
-                <span>Analytics</span>
-              </div>
-              <div className="hero-visual-item hero-visual-item--automation">
-                <div className="visual-icon">⚡</div>
-                <span>Automação</span>
-              </div>
-              <div className="hero-visual-item hero-visual-item--growth">
-                <div className="visual-icon">📈</div>
-                <span>Crescimento</span>
-              </div>
-              <div className="hero-visual-item hero-visual-item--integration">
-                <div className="visual-icon">🔗</div>
-                <span>Integração</span>
-              </div>
-              <div className="hero-visual-item hero-visual-item--support">
-                <div className="visual-icon">🛠️</div>
-                <span>Suporte</span>
-              </div>
+              {areas.map((area) => (
+                <button
+                  key={area.id}
+                  className={`hero-visual-item hero-visual-item--${area.id} ${
+                    selectedArea?.id === area.id ? 'hero-visual-item--selected' : ''
+                  }`}
+                  onClick={() => handleAreaSelect(area)}
+                  aria-label={`Selecionar ${area.label}: ${area.description}`}
+                >
+                  <div className="visual-icon">{area.icon}</div>
+                  <span>{area.label}</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>
