@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import useGemini from '../hooks/useGemini';
 import { openWhatsApp } from '../utils/openWhatsApp';
 import styles from './Wizard.module.css';
@@ -9,7 +9,7 @@ const Wizard = ({ selectedArea }) => {
   const [step, setStep] = useState(0);
   
   // Perguntas contextualizadas baseadas na área selecionada
-  const getInitialQuestion = () => {
+  const getInitialQuestion = useCallback(() => {
     if (!selectedArea) return 'Qual tarefa consome mais tempo na sua equipe?';
     
     const contextQuestions = {
@@ -22,7 +22,7 @@ const Wizard = ({ selectedArea }) => {
     };
     
     return contextQuestions[selectedArea.id] || 'Qual tarefa consome mais tempo na sua equipe?';
-  };
+  }, [selectedArea]);
   
   const [questions, setQuestions] = useState([getInitialQuestion()]);
   const [answers, setAnswers] = useState([]);
@@ -36,7 +36,7 @@ const Wizard = ({ selectedArea }) => {
       setQuestions([newQuestion]);
       setCurrentQuestion(newQuestion);
     }
-  }, [selectedArea]);
+  }, [selectedArea, step, getInitialQuestion]);
 
   async function fetchNextQuestion(history) {
     const areaContext = selectedArea ? `especializado em ${selectedArea.label} (${selectedArea.description})` : 'especializado em WhatsApp e IA';
@@ -96,13 +96,13 @@ const Wizard = ({ selectedArea }) => {
         <div className={styles.loading} aria-busy="true">Carregando…</div>
       ) : (
         <form onSubmit={handleSubmit} className={`${styles.form} wizard-form`}>
-          <div className={`${styles.progressContainer} wizard-footer`}>
-            <p className={`${styles.progress} wizard-progress`}>Pergunta {step + 1} de 3</p>
+          <div className={`${styles.questionContainer}`}>
+            <h3 className={`${styles.question}`}>{currentQuestion}</h3>
           </div>
           <input
             id="wizard-input"
             type="text"
-            placeholder={currentQuestion}
+            placeholder="Explique seu problema aqui..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             required
@@ -111,6 +111,10 @@ const Wizard = ({ selectedArea }) => {
           <button type="submit" className={`${styles.button} wizard-button btn btn--primary`} disabled={!inputValue.trim()}>
             {step === 2 ? 'Finalizar' : 'Continuar'}
           </button>
+          <div className={`${styles.footer}`}>
+            <p className={`${styles.progress} wizard-progress`}>Pergunta {step + 1} de 3</p>
+            <p className={`${styles.help}`}>Em breve um atendente entrará em contato com você</p>
+          </div>
         </form>
       )}
     </section>
